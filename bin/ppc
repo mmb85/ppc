@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "bundler/setup"
+require "ppc"
+require "json"
+
+raise ArgumentError, "A JSON File should be provided" unless ARGV[0]
+
+file = File.read(ARGV[0])
+data_hash = JSON.parse(file)
+
+puts "Generating result...\n"
+
+result = Ppc::ProcessInput.new(data_hash).perform
+puts JSON.pretty_generate(result)
+Ppc::ProcessInput.export_to_json(result)
